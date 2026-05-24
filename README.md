@@ -2,6 +2,8 @@
 
 O **EconoAPI** é uma plataforma completa escrita em Python para coleta, análise e visualização de indicadores macroeconômicos brasileiros em tempo real. O sistema consome dados diretamente das APIs oficiais do **Banco Central do Brasil (BCB)** e do **Instituto Brasileiro de Geografia e Estatística (IBGE)**, fornecendo tanto uma API RESTful de alta performance (FastAPI) quanto um Dashboard web interativo (Streamlit).
 
+🔗 **Acesse o Dashboard na Nuvem**: [EconoAPI Dashboard (Streamlit Cloud)](https://brunoteixeira042-econoapi-dashboard-ootxqv.streamlit.app/)
+
 ---
 
 ## 🚀 Recursos Principais
