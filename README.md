@@ -47,6 +47,78 @@ econoapi/
 
 ---
 
+## 🏛️ Arquitetura de Classes
+
+A estrutura de classes do projeto foi modelada para seguir princípios de Orientação a Objetos (SOLID), separando responsabilidades de acesso a dados, manipulação estatística, armazenamento em cache e modelos de representação:
+
+```mermaid
+classDiagram
+    class DataSource {
+        <<abstract>>
+        +str nome
+        +str base_url
+        +fetch(codigo: str)* SerieHistorica
+        +listar_indicadores()* list
+    }
+
+    class BCBDataSource {
+        +fetch(codigo: str) SerieHistorica
+        +listar_indicadores() list
+    }
+
+    class IBGEDataSource {
+        +fetch(codigo: str) SerieHistorica
+        +listar_indicadores() list
+    }
+
+    class DataCollector {
+        +list fontes
+        +adicionar_fonte(fonte: DataSource) None
+        +coletar_tudo() list
+        +coletar_por_nome(nome: str, codigo: str) SerieHistorica
+    }
+
+    class Transformer {
+        +calcular_media(serie: SerieHistorica) float
+        +filtrar_por_periodo(serie: SerieHistorica, data_inicio: str, data_fim: str) SerieHistorica
+    }
+
+    class SerieHistorica {
+        +str codigo
+        +str nome
+        +list dados
+        +int total_registros
+        +ultimo_valor() float
+        +to_dataframe() pd.DataFrame
+        +to_dict() dict
+    }
+
+    class Indicador {
+        +str codigo
+        +str nome
+        +str unidade
+        +str fonte
+        +float valor_atual
+        +datetime datetime_atualizado_em
+        +to_dict() dict
+    }
+
+    class CacheManager {
+        -dict _dados_salvos
+        +salvar(chave: str, serie: SerieHistorica) None
+        +buscar(chave: str) SerieHistorica
+    }
+
+    BCBDataSource --|> DataSource : Herança
+    IBGEDataSource --|> DataSource : Herança
+    DataCollector "1" o-- "*" DataSource : Agregação
+    DataCollector ..> SerieHistorica : Retorna
+    Transformer ..> SerieHistorica : Processa
+    CacheManager ..> SerieHistorica : Armazena
+```
+
+---
+
 ## 🛠️ Requisitos e Instalação
 
 ### Pré-requisitos
